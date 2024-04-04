@@ -1,6 +1,9 @@
 import com.database.DatabaseConnection;
 
-import java.sql.*;
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.Timestamp;
+import java.sql.ResultSet;
 
 public class TaskPlanner {
 
@@ -17,11 +20,13 @@ public class TaskPlanner {
                     "SELECT * FROM Task");
             int taskId;
             String taskName;
+            Timestamp timeCreated;
             while (resultSet.next()) {
                 taskId = resultSet.getInt("ID");
                 taskName = resultSet.getString("name").trim();
+                timeCreated = resultSet.getTimestamp("timeCreated");
                 System.out.println("id : " + taskId
-                        + " name : " + taskName);
+                        + " name : " + taskName + " timeCreated:" + timeCreated);
             }
             resultSet.close();
             statement.close();
