@@ -1,3 +1,5 @@
+import com.database.DatabaseConnection;
+
 import java.sql.*;
 
 public class TaskPlanner {
@@ -5,16 +7,11 @@ public class TaskPlanner {
     public static void main(String[] args) {
         System.out.println("Hello World");
 
-        Connection connection = null;
-        try {
-            // below two lines are used for connectivity.
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/taskPlanner",
-                    "root", "root");
+        Connection con = DatabaseConnection.getConnection();
 
+        try {
             Statement statement;
-            statement = connection.createStatement();
+            statement = con.createStatement();
             ResultSet resultSet;
             resultSet = statement.executeQuery(
                     "SELECT * FROM Task");
@@ -28,7 +25,6 @@ public class TaskPlanner {
             }
             resultSet.close();
             statement.close();
-            connection.close();
         }
         catch (Exception exception) {
             System.out.println(exception);
