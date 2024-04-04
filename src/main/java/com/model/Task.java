@@ -8,10 +8,10 @@ public class Task {
     private int ID;
     private String name;
     private int parentTaskID;
-    private String description;
+    private String description = null;
     private LocalDateTime timeCreated;
-    private LocalTime dueTime;
-    private LocalDate dueDate;
+    private LocalTime dueTime = null;
+    private LocalDate dueDate = null;
 
     public Task(int ID, String name, LocalDateTime timeCreated) {
         this.ID = ID;
