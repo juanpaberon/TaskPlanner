@@ -4,14 +4,10 @@ import com.model.Task;
 import com.database.DatabaseConnection;
 import com.mysql.cj.protocol.a.LocalDateValueEncoder;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.ResultSet;
+import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,15 +24,31 @@ public class TaskDaoImplementation implements TaskDao{
         ps.setInt(2, task.getParentTaskID());
         ps.setString(3, task.getDescription());
         ps.setTimestamp(4, Timestamp.valueOf(task.getTimeCreated()));
-        ps.setTime(5, Time.valueOf(task.getDueTime()));
-        ps.setDate(6, Date.valueOf(task.getDueDate()));
+
+        LocalTime taskDueTime = task.getDueTime();
+        if (taskDueTime == null) {
+            ps.setNull(5, Types.TIME);
+        } else {
+            ps.setTime(5, Time.valueOf(taskDueTime));
+        }
+
+        LocalDate taskDueDate = task.getDueDate();
+        if (taskDueDate == null) {
+            ps.setNull(6, Types.TIME);
+        } else {
+            ps.setDate(6, Date.valueOf(taskDueDate));
+        }
+
 
         return ps.executeUpdate();
     }
 
     @Override
     public void delete(int taskID) throws SQLException {
-
+        String query = "DELETE FROM Task WHERE ID = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, taskID);
+        ps.executeUpdate();
     }
 
     @Override
@@ -66,7 +78,18 @@ public class TaskDaoImplementation implements TaskDao{
 
     @Override
     public List<Task> getTasks() throws SQLException {
+        String query = "SELECT * FROM Task";
+        PreparedStatement ps = con.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+
         List<Task> taskList = new ArrayList();
+        while (rs.next()) {
+            int taskID = rs.getInt("ID");
+            String name = rs.getString("name");
+            LocalDateTime timeCreated = rs.getTimestamp("timeCreated").toLocalDateTime();
+            Task task = new Task(taskID, name, timeCreated);
+            taskList.add(task);
+        }
         return taskList;
     }
 
