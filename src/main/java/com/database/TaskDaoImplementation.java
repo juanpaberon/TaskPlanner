@@ -13,7 +13,15 @@ import java.util.List;
 
 public class TaskDaoImplementation implements TaskDao{
 
-    static Connection con = DatabaseConnection.getConnection();
+    Connection con = DatabaseConnection.getConnection();
+
+    public TaskDaoImplementation() {}
+
+    public TaskDaoImplementation(String purpose) {
+        if (purpose.equals("Test")) {
+            con = DatabaseConnectionTest.getConnection();
+        }
+    }
 
     @Override
     public int add(Task task) throws SQLException {
