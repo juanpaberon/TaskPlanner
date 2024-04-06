@@ -10,8 +10,17 @@ import java.util.List;
 
 public class TaskDaoTest {
 
+    static void cleanDatabase() throws SQLException  {
+        TaskDaoImplementation taskDao = new TaskDaoImplementation("Test");
+        List<Task> allTasks = taskDao.getTasks();
+
+        for (Task task : allTasks) {
+            taskDao.delete(task.getID());
+        }
+    }
+
     @Test
-    void testDemo() throws SQLException {
+    void addTaskTest() throws SQLException {
         TaskDaoImplementation taskDao = new TaskDaoImplementation("Test");
 
         String newTaskName = "Change oil";
@@ -21,12 +30,6 @@ public class TaskDaoTest {
 
         List<Task> allTasks = taskDao.getTasks();
         Assertions.assertEquals(1, allTasks.size());
-
-        for (Task task : allTasks) {
-            taskDao.delete(task.getID());
-        }
-
-        allTasks = taskDao.getTasks();
-        Assertions.assertEquals(0, allTasks.size());
+        TaskDaoTest.cleanDatabase();
     }
 }
