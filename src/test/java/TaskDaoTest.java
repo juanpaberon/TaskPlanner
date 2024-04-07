@@ -30,6 +30,6 @@ public class TaskDaoTest {
 
         List<Task> allTasks = taskDao.getTasks();
         Assertions.assertEquals(1, allTasks.size());
-        TaskDaoTest.cleanDatabase();
+        cleanDatabase();
     }
 }

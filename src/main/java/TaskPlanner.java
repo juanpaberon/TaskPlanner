@@ -1,9 +1,14 @@
-import com.database.TaskDaoImplementation;
-import com.model.Task;
-
-import java.sql.*;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.database.TaskDaoImplementation;
+import com.model.Task;
+import com.gui.Frame;
+
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class TaskPlanner {
 
@@ -11,31 +16,22 @@ public class TaskPlanner {
 
         TaskDaoImplementation taskDao = new TaskDaoImplementation();
 
-        int taskID = 1;
-        Task task = taskDao.getTask(taskID);
-        System.out.println(task);
+        Object[][] data = {};
+        String[] columnNames = {"Name", "Time created"};
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+        JTable table = new JTable(model);
+
 
         List<Task> allTasks = taskDao.getTasks();
-        for (Task taskList : allTasks) {
-            System.out.println(taskList);
+
+        for (Task task : allTasks) {
+            model.addRow(new Object[]{task.getName(), task.getTimeCreated()});
         }
 
-        String newTaskName = "Change oil";
-        LocalDateTime newTaskCreationTime = LocalDateTime.of(2024,4,5,15,30);
-        Task newTask = new Task(-1, newTaskName, newTaskCreationTime);
-        int addResult = taskDao.add(newTask);
-        System.out.println(addResult);
+        Frame frame = new Frame();
+        JScrollPane scrollPane = new JScrollPane(table);
+        frame.add(scrollPane);
+        frame.setVisible(true);
 
-        allTasks = taskDao.getTasks();
-        for (Task taskList : allTasks) {
-            System.out.println(taskList);
-        }
-
-        taskDao.delete(3);
-
-        allTasks = taskDao.getTasks();
-        for (Task taskList : allTasks) {
-            System.out.println(taskList);
-        }
     }
 }
