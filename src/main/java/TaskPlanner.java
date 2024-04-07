@@ -1,36 +1,31 @@
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import com.database.TaskDaoImplementation;
+import com.gui.DisplayTask;
 import com.model.Task;
 import com.gui.Frame;
+import com.gui.AddNewTask;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 public class TaskPlanner {
 
     public static void main(String[] args) throws SQLException {
 
-        TaskDaoImplementation taskDao = new TaskDaoImplementation();
-
-        Object[][] data = {};
-        String[] columnNames = {"Name", "Time created"};
-        DefaultTableModel model = new DefaultTableModel(data, columnNames);
-        JTable table = new JTable(model);
-
-
-        List<Task> allTasks = taskDao.getTasks();
-
-        for (Task task : allTasks) {
-            model.addRow(new Object[]{task.getName(), task.getTimeCreated()});
-        }
-
         Frame frame = new Frame();
-        JScrollPane scrollPane = new JScrollPane(table);
-        frame.add(scrollPane);
+        frame.setLayout(null);
+
+        DisplayTask displayTask = new DisplayTask(frame);
+        frame.add(displayTask);
+        AddNewTask addNewTaskPanel = new AddNewTask(0,200,400,200);
+        frame.add(addNewTaskPanel);
+
         frame.setVisible(true);
 
     }
