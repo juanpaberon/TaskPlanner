@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 public class AddNewTask extends JPanel implements ActionListener {
 
+    Frame frame;
     int width;
     int height;
     JPanel inputNamePanel = new JPanel();
@@ -14,7 +15,8 @@ public class AddNewTask extends JPanel implements ActionListener {
     JTextField nameTextField = new JTextField();
     JButton button = new JButton("Add task");
 
-    public AddNewTask(int x, int y, int width, int height) {
+    public AddNewTask(Frame mainFrame, int x, int y, int width, int height) {
+        this.frame = mainFrame;
         this.width = width;
         this.height = height;
         this.setBounds(x, y, width, height);
@@ -40,6 +42,7 @@ public class AddNewTask extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == button) {
             nameTextField.getText();
+            this.frame.onButtonClicked();
         }
     }
 }

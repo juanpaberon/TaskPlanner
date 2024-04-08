@@ -19,14 +19,6 @@ public class TaskPlanner {
     public static void main(String[] args) throws SQLException {
 
         Frame frame = new Frame();
-        frame.setLayout(null);
-
-        DisplayTask displayTask = new DisplayTask(frame);
-        frame.add(displayTask);
-        AddNewTask addNewTaskPanel = new AddNewTask(0,200,400,200);
-        frame.add(addNewTaskPanel);
-
-        frame.setVisible(true);
 
     }
 }
