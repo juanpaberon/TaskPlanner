@@ -1,9 +1,14 @@
 package com.gui;
 
+import com.database.TaskDaoImplementation;
+import com.model.Task;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 public class AddNewTask extends JPanel implements ActionListener {
 
@@ -35,14 +40,30 @@ public class AddNewTask extends JPanel implements ActionListener {
         inputNamePanel.add(nameTextField, BorderLayout.SOUTH);
 
         button.setBounds(100,75,100,50);
+        button.addActionListener(this);
         this.add(button);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == button) {
-            nameTextField.getText();
+            System.out.println(nameTextField.getText());
+            try {
+                createNewTask();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            nameTextField.setText("Task Name");
             this.frame.onButtonClicked();
         }
+    }
+
+    public void createNewTask() throws SQLException {
+        String name = nameTextField.getText();
+        LocalDateTime timeCreated = LocalDateTime.now();
+        Task task = new Task(-1, name, timeCreated);
+
+        TaskDaoImplementation taskDao = new TaskDaoImplementation();
+        taskDao.add(task);
     }
 }
