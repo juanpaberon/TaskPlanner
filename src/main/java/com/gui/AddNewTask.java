@@ -16,6 +16,7 @@ public class AddNewTask extends JPanel implements ActionListener {
     int width;
     int height;
     JPanel inputNamePanel = new JPanel();
+    JPanel buttonPanel = new JPanel();
     JLabel nameLabel = new JLabel();
     JTextField nameTextField = new JTextField();
     JButton button = new JButton("Add task");
@@ -36,12 +37,14 @@ public class AddNewTask extends JPanel implements ActionListener {
         inputNamePanel.add(nameLabel, BorderLayout.NORTH);
 
         nameTextField.setPreferredSize(new Dimension(100,25));
-        nameTextField.setText("Task Name");
+        nameTextField.setText("Name");
         inputNamePanel.add(nameTextField, BorderLayout.SOUTH);
 
-        button.setBounds(100,75,100,50);
+        buttonPanel.setBounds(0,50,400,100);
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(button);
+        this.add(buttonPanel);
         button.addActionListener(this);
-        this.add(button);
     }
 
     @Override
