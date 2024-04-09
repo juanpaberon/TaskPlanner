@@ -17,6 +17,8 @@ public class AddNewTask extends JPanel implements ActionListener {
     int height;
     JPanel inputNamePanel = new JPanel();
     JPanel buttonPanel = new JPanel();
+    JPanel dueDatePanel = new JPanel();
+    JPanel dueTimePanel = new JPanel();
     JLabel nameLabel = new JLabel();
     JTextField nameTextField = new JTextField();
     JButton button = new JButton("Add task");
@@ -28,6 +30,14 @@ public class AddNewTask extends JPanel implements ActionListener {
         this.setBounds(x, y, width, height);
         this.setLayout(null);
 
+        inputNamePanelSetUp();
+        buttonPanelSetUp();
+        dueDatePanelSetUp();
+        dueTimePanelSetUp();
+
+    }
+
+    private void inputNamePanelSetUp() {
         inputNamePanel.setBounds(0,0, 100,50);
         inputNamePanel.setLayout(new BorderLayout());
         this.add(inputNamePanel);
@@ -39,12 +49,26 @@ public class AddNewTask extends JPanel implements ActionListener {
         nameTextField.setPreferredSize(new Dimension(100,25));
         nameTextField.setText("Name");
         inputNamePanel.add(nameTextField, BorderLayout.SOUTH);
+    }
 
+    private void buttonPanelSetUp() {
         buttonPanel.setBounds(0,50,400,100);
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(button);
         this.add(buttonPanel);
         button.addActionListener(this);
+    }
+
+    private void dueDatePanelSetUp() {
+        dueDatePanel.setBounds(0,100, 100, 50);
+        dueDatePanel.setLayout(new BorderLayout());
+        this.add(dueDatePanel);
+    }
+
+    private void dueTimePanelSetUp() {
+        dueTimePanel.setBounds(0,200, 100, 50);
+        dueTimePanel.setLayout(new BorderLayout());
+        this.add(dueTimePanel);
     }
 
     @Override
