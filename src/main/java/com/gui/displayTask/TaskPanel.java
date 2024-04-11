@@ -1,22 +1,30 @@
 package com.gui.displayTask;
 
 import com.model.Task;
+import com.database.TaskDaoImplementation;
+import com.gui.Frame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class TaskPanel extends JPanel implements ActionListener {
 
+    TaskDaoImplementation taskDao = new TaskDaoImplementation();
     JLabel taskName = new JLabel();
     JLabel taskDueDate = new JLabel();
     JLabel taskDueTime = new JLabel();
     JButton finishTask = new JButton("F");
     JButton deleteTask = new JButton("X");
+    Task task;
+    Frame listener;
 
 
-    public TaskPanel(Task task) {
+    public TaskPanel(Task task, Frame listener) {
+        this.listener = listener;
+        this.task = task;
         this.setPreferredSize(new Dimension(390,60));
         this.setLayout(new FlowLayout(FlowLayout.TRAILING, 5, 5));
 
@@ -48,6 +56,13 @@ public class TaskPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (e.getSource() == deleteTask) {
+            try {
+                taskDao.delete(task.getID());
+                this.listener.onButtonClicked();
+            } catch (SQLException exception) {
+                throw new RuntimeException(exception);
+            }
+        }
     }
 }

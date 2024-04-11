@@ -5,11 +5,9 @@ import com.gui.Frame;
 import com.model.Task;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -27,11 +25,13 @@ public class Displayer extends JPanel {
         this.setBackground(Color.lightGray);
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-        Task testTask = new Task(1, "Clean dishes", LocalDateTime.now());
-        addTaskDisplay(testTask);
+        update();
+
     }
 
     public void update(){
+
+        this.removeAll();
 
         try {
             allTasks = taskDao.getTasks();
@@ -39,12 +39,19 @@ public class Displayer extends JPanel {
             throw new RuntimeException(e);
         }
 
+        for (Task task : allTasks) {
+            addTaskDisplay(task);
+        }
+
+        this.repaint();
+        this.revalidate();
+
     }
 
     private void addTaskDisplay(Task task) {
         task.setDueDate(LocalDate.now());
         task.setDueTime(LocalTime.now());
-        TaskPanel taskPanel = new TaskPanel(task);
+        TaskPanel taskPanel = new TaskPanel(task, this.frame);
         this.add(taskPanel);
     }
 
