@@ -49,8 +49,6 @@ public class Displayer extends JPanel {
     }
 
     private void addTaskDisplay(Task task) {
-        task.setDueDate(LocalDate.now());
-        task.setDueTime(LocalTime.now());
         TaskPanel taskPanel = new TaskPanel(task, this.frame);
         this.add(taskPanel);
     }

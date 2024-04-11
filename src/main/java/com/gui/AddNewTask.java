@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class AddNewTask extends JPanel implements ActionListener {
 
@@ -114,7 +116,6 @@ public class AddNewTask extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == button) {
-            System.out.println(nameTextField.getText());
             try {
                 createNewTask();
             } catch (SQLException ex) {

@@ -40,12 +40,16 @@ public class TaskPanel extends JPanel implements ActionListener {
 
         taskDueDate.setPreferredSize(new Dimension(165,20));
         taskDueDate.setFont(new Font(null, Font.PLAIN, 10));
-        taskDueDate.setText(task.getDueDate().toString());
+        if (!(task.getDueDate() == null)) {
+            taskDueDate.setText(task.getDueDate().toString());
+        }
         this.add(taskDueDate);
 
         taskDueTime.setPreferredSize(new Dimension(160,20));
         taskDueTime.setFont(new Font(null, Font.PLAIN, 10));
-        taskDueTime.setText(task.getDueTime().toString());
+        if (!(task.getDueTime() == null)) {
+            taskDueTime.setText(task.getDueTime().toString());
+        }
         this.add(taskDueTime);
 
         deleteTask.setPreferredSize(new Dimension(40,20));
