@@ -96,6 +96,12 @@ public class TaskDaoImplementation implements TaskDao{
             String name = rs.getString("name");
             LocalDateTime timeCreated = rs.getTimestamp("timeCreated").toLocalDateTime();
             Task task = new Task(taskID, name, timeCreated);
+            if (!(rs.getDate("dueDate") == null)) {
+                task.setDueDate(rs.getDate("dueDate").toLocalDate());
+            }
+            if (!(rs.getTime("dueTime") == null)) {
+                task.setDueTime(rs.getTime("dueTime").toLocalTime());
+            }
             taskList.add(task);
         }
         return taskList;

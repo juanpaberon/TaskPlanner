@@ -126,10 +126,41 @@ public class AddNewTask extends JPanel implements ActionListener {
         }
     }
 
+    private LocalDate getDueDateTask() {
+        String[] rawDate = dueDate.getText().split("\\.");
+        try {
+            int year = Integer.parseInt(rawDate[0]);
+            int month = Integer.parseInt(rawDate[1]);
+            int day = Integer.parseInt(rawDate[2]);
+            return LocalDate.of(year, month, day);
+        } catch(NumberFormatException e) {
+            System.err.println("Error at the due date");
+            return null;
+        }
+    }
+
+    private LocalTime getDueTimeTask() {
+        String[] rawTime = dueTime.getText().split(":");
+        try {
+            int hour = Integer.parseInt(rawTime[0]);
+            int minute = Integer.parseInt(rawTime[1]);
+            return LocalTime.of(hour, minute, 0);
+        } catch(NumberFormatException e) {
+            System.err.println("Error at the due time");
+            return null;
+        }
+    }
+
     public void createNewTask() throws SQLException {
         String name = nameTextField.getText();
         LocalDateTime timeCreated = LocalDateTime.now();
         Task task = new Task(-1, name, timeCreated);
+        if (yesRadioButtonDueDate.isSelected()) {
+            task.setDueDate(getDueDateTask());
+        }
+        if (yesRadioButtonDueTime.isSelected()){
+            task.setDueTime(getDueTimeTask());
+        }
 
         TaskDaoImplementation taskDao = new TaskDaoImplementation();
         taskDao.add(task);
