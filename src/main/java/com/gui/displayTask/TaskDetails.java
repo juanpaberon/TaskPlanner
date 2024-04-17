@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 
 public class TaskDetails extends JFrame implements ActionListener {
 
@@ -29,6 +30,7 @@ public class TaskDetails extends JFrame implements ActionListener {
 
         nameTextField.setPreferredSize(new Dimension(290, 20));
         nameTextField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        nameTextField.setText(task.getName());
         this.add(nameTextField);
 
         JLabel taskDueDate = new JLabel("Due Date");
@@ -38,6 +40,9 @@ public class TaskDetails extends JFrame implements ActionListener {
 
         dueDateTextField.setPreferredSize(new Dimension(290, 20));
         dueDateTextField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        if (!(task.getDueDate() == null)) {
+            dueDateTextField.setText(task.getDueDate().toString());
+        }
         this.add(dueDateTextField);
 
         JLabel taskDueTime = new JLabel("Due Time");
@@ -47,6 +52,9 @@ public class TaskDetails extends JFrame implements ActionListener {
 
         dueTimeTextField.setPreferredSize(new Dimension(290, 20));
         dueTimeTextField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        if (!(task.getDueTime() == null)) {
+            dueTimeTextField.setText(task.getDueTime().toString());
+        }
         this.add(dueTimeTextField);
 
         JLabel taskCreationDate = new JLabel("Creation Date");
@@ -54,8 +62,9 @@ public class TaskDetails extends JFrame implements ActionListener {
         taskCreationDate.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.add(taskCreationDate);
 
-        JLabel taskCreationDateExp = new JLabel("TheDate");
+        JLabel taskCreationDateExp = new JLabel(getDateFromLDT(task.getTimeCreated()));
         taskCreationDateExp.setPreferredSize(new Dimension(290, 20));
+        taskCreationDateExp.setFont(new Font(null, Font.PLAIN, 12));
         taskCreationDateExp.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.add(taskCreationDateExp);
 
@@ -64,8 +73,9 @@ public class TaskDetails extends JFrame implements ActionListener {
         taskCreationTime.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.add(taskCreationTime);
 
-        JLabel taskCreationTimeExp = new JLabel("TheTime");
+        JLabel taskCreationTimeExp = new JLabel(getTimeFromLDT(task.getTimeCreated()));
         taskCreationTimeExp.setPreferredSize(new Dimension(290, 20));
+        taskCreationTimeExp.setFont(new Font(null, Font.PLAIN, 12));
         taskCreationTimeExp.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.add(taskCreationTimeExp);
 
@@ -103,4 +113,14 @@ public class TaskDetails extends JFrame implements ActionListener {
 
         }
     }
+
+    public String getDateFromLDT(LocalDateTime LDTtoConvert) {
+        return LDTtoConvert.getYear() + "-" + LDTtoConvert.getMonthValue() + "-" + LDTtoConvert.getDayOfMonth();
+    }
+
+    public String getTimeFromLDT(LocalDateTime LDTtoConvert) {
+        return LDTtoConvert.getHour() + ":" + LDTtoConvert.getMinute();
+    }
+
+
 }
