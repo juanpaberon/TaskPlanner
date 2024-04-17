@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 public class TaskDetails extends JFrame implements ActionListener {
 
+    Task task;
     JTextField nameTextField = new JTextField();
     JTextField dueDateTextField = new JTextField();
     JTextField dueTimeTextField = new JTextField();
@@ -18,6 +19,7 @@ public class TaskDetails extends JFrame implements ActionListener {
     JButton saveButton = new JButton("save");
 
     public TaskDetails(Task task) {
+        this.task = task;
         this.setSize(420, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
@@ -30,7 +32,6 @@ public class TaskDetails extends JFrame implements ActionListener {
 
         nameTextField.setPreferredSize(new Dimension(290, 20));
         nameTextField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        nameTextField.setText(task.getName());
         this.add(nameTextField);
 
         JLabel taskDueDate = new JLabel("Due Date");
@@ -40,9 +41,6 @@ public class TaskDetails extends JFrame implements ActionListener {
 
         dueDateTextField.setPreferredSize(new Dimension(290, 20));
         dueDateTextField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        if (!(task.getDueDate() == null)) {
-            dueDateTextField.setText(task.getDueDate().toString());
-        }
         this.add(dueDateTextField);
 
         JLabel taskDueTime = new JLabel("Due Time");
@@ -52,9 +50,6 @@ public class TaskDetails extends JFrame implements ActionListener {
 
         dueTimeTextField.setPreferredSize(new Dimension(290, 20));
         dueTimeTextField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        if (!(task.getDueTime() == null)) {
-            dueTimeTextField.setText(task.getDueTime().toString());
-        }
         this.add(dueTimeTextField);
 
         JLabel taskCreationDate = new JLabel("Creation Date");
@@ -96,19 +91,32 @@ public class TaskDetails extends JFrame implements ActionListener {
 
         resetButton.setPreferredSize(new Dimension(60,25));
         resetButton.setFont(new Font(null, Font.PLAIN, 10));
+        resetButton.addActionListener(this);
         buttonPanel.add(resetButton);
 
         saveButton.setPreferredSize(new Dimension(60,25));
         saveButton.setFont(new Font(null, Font.PLAIN, 10));
         buttonPanel.add(saveButton);
 
+        populateFields();
+
         this.setVisible(true);
+    }
+
+    public void populateFields() {
+        nameTextField.setText(task.getName());
+        if (!(task.getDueDate() == null)) {
+            dueDateTextField.setText(task.getDueDate().toString());
+        }
+        if (!(task.getDueTime() == null)) {
+            dueTimeTextField.setText(task.getDueTime().toString());
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == resetButton){
-
+            populateFields();
         } else if (e.getSource() == saveButton) {
 
         }
