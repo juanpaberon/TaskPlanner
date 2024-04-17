@@ -1,6 +1,6 @@
 package com.gui;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
 
 import com.gui.displayTask.Displayer;
