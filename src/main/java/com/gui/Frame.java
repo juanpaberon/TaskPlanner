@@ -9,7 +9,7 @@ public class Frame extends JFrame implements ButtonClickListener {
 
     Displayer taskDisplayer;
     public Frame() {
-        this.setSize(400, 400);
+        this.setSize(420, 400);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 

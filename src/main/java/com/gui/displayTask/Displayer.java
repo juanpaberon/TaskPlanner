@@ -14,7 +14,6 @@ import java.util.List;
 public class Displayer extends JScrollPane {
 
     Frame frame;
-    JScrollPane scrollPane;
     JPanel panel;
     TaskDaoImplementation taskDao = new TaskDaoImplementation();
     List<Task> allTasks;
@@ -24,7 +23,7 @@ public class Displayer extends JScrollPane {
 
         this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        this.setPreferredSize(new Dimension(390,200));
+        this.setPreferredSize(new Dimension(410,200));
 
         update();
 
@@ -37,7 +36,6 @@ public class Displayer extends JScrollPane {
 
         this.panel.setPreferredSize(new Dimension(390,height));
         this.panel.setBackground(Color.lightGray);
-//        this.panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         this.panel.setLayout(null);
 
         this.setViewportView(this.panel);
