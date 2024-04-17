@@ -18,6 +18,7 @@ public class TaskPanel extends JPanel implements ActionListener {
     JLabel taskDueTime = new JLabel();
     JButton finishTask = new JButton("F");
     JButton deleteTask = new JButton("X");
+    JButton detailsTask = new JButton(":");
     Task task;
     Frame listener;
 
@@ -38,19 +39,24 @@ public class TaskPanel extends JPanel implements ActionListener {
         finishTask.addActionListener(this);
         this.add(finishTask);
 
-        taskDueDate.setPreferredSize(new Dimension(165,20));
+        taskDueDate.setPreferredSize(new Dimension(140,20));
         taskDueDate.setFont(new Font(null, Font.PLAIN, 10));
         if (!(task.getDueDate() == null)) {
             taskDueDate.setText(task.getDueDate().toString());
         }
         this.add(taskDueDate);
 
-        taskDueTime.setPreferredSize(new Dimension(160,20));
+        taskDueTime.setPreferredSize(new Dimension(140,20));
         taskDueTime.setFont(new Font(null, Font.PLAIN, 10));
         if (!(task.getDueTime() == null)) {
             taskDueTime.setText(task.getDueTime().toString());
         }
         this.add(taskDueTime);
+
+        detailsTask.setPreferredSize(new Dimension(40,20));
+        detailsTask.setFont(new Font(null, Font.PLAIN, 10));
+        detailsTask.addActionListener(this);
+        this.add(detailsTask);
 
         deleteTask.setPreferredSize(new Dimension(40,20));
         deleteTask.setFont(new Font(null, Font.PLAIN, 10));
@@ -67,6 +73,8 @@ public class TaskPanel extends JPanel implements ActionListener {
             } catch (SQLException exception) {
                 throw new RuntimeException(exception);
             }
+        } else if (e.getSource() == detailsTask) {
+            TaskDetails taskDetails = new TaskDetails(task);
         }
     }
 }
