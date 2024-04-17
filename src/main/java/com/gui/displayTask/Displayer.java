@@ -30,11 +30,15 @@ public class Displayer extends JScrollPane {
 
     }
 
-    public void createMainPanel() {
+    public void createMainPanel(int totalTask) {
         this.panel = new JPanel();
-        this.panel.setPreferredSize(new Dimension(390,200));
+
+        int height = Math.max(200, totalTask * 65);
+
+        this.panel.setPreferredSize(new Dimension(390,height));
         this.panel.setBackground(Color.lightGray);
-        this.panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+//        this.panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+        this.panel.setLayout(null);
 
         this.setViewportView(this.panel);
     }
@@ -45,16 +49,18 @@ public class Displayer extends JScrollPane {
             this.panel.removeAll();
         }
 
-        createMainPanel();
-
         try {
             allTasks = taskDao.getTasks();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
+        createMainPanel(allTasks.size());
+
+        int counter = 0;
         for (Task task : allTasks) {
-            addTaskDisplay(task);
+            addTaskDisplay(task, counter);
+            counter++;
         }
 
         this.panel.revalidate();
@@ -65,8 +71,8 @@ public class Displayer extends JScrollPane {
 
     }
 
-    private void addTaskDisplay(Task task) {
-        TaskPanel taskPanel = new TaskPanel(task, this.frame);
+    private void addTaskDisplay(Task task, int counter) {
+        TaskPanel taskPanel = new TaskPanel(task, this.frame, counter);
         this.panel.add(taskPanel);
     }
 

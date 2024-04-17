@@ -22,10 +22,11 @@ public class TaskPanel extends JPanel implements ActionListener {
     Frame listener;
 
 
-    public TaskPanel(Task task, Frame listener) {
+    public TaskPanel(Task task, Frame listener, int counter) {
         this.listener = listener;
         this.task = task;
-        this.setPreferredSize(new Dimension(390,60));
+        this.setBounds(0,counter * 65,390,60);
+//        this.setPreferredSize(new Dimension(390,60));
         this.setLayout(new FlowLayout(FlowLayout.TRAILING, 5, 5));
 
         taskName.setPreferredSize(new Dimension(330,20));
