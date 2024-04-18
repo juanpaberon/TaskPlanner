@@ -31,7 +31,7 @@ public class TaskDaoImplementation implements TaskDao{
     @Override
     public int add(Task task) throws SQLException {
         String query = "INSERT INTO `Task` VALUES" +
-                "(NULL, ?, ?, ?, ?, ?, ?)";
+                "(NULL, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, task.getName());
         ps.setInt(2, task.getParentTaskID());
@@ -51,6 +51,8 @@ public class TaskDaoImplementation implements TaskDao{
         } else {
             ps.setDate(6, Date.valueOf(taskDueDate));
         }
+
+        ps.setNull(7, Types.TIMESTAMP);
 
         if (task.getDescription()) {
             addDescription(task);
@@ -123,7 +125,7 @@ public class TaskDaoImplementation implements TaskDao{
     @Override
     public void update(Task task) throws SQLException {
         String query = "UPDATE Task " +
-                "SET name=?, parentTaskID=?, description=?, timeCreated=?, dueTime=?, dueDate=? " +
+                "SET name=?, parentTaskID=?, description=?, timeCreated=?, dueTime=?, dueDate=?, timeFinished=? " +
                 "WHERE ID=?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, task.getName());
@@ -144,7 +146,10 @@ public class TaskDaoImplementation implements TaskDao{
         } else {
             ps.setDate(6, Date.valueOf(taskDueDate));
         }
-        ps.setInt(7, task.getID());
+
+        ps.setNull(7, Types.TIMESTAMP);
+
+        ps.setInt(8, task.getID());
 
         if (task.getDescription()) {
             addDescription(task);
