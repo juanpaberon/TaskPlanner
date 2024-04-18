@@ -25,7 +25,7 @@ public class TaskDaoImplementation implements TaskDao{
 
     @Override
     public int add(Task task) throws SQLException {
-        String query = "INSERT INTO Task VALUES" +
+        String query = "INSERT INTO `Task` VALUES" +
                 "(NULL, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, task.getName());
@@ -109,6 +109,31 @@ public class TaskDaoImplementation implements TaskDao{
 
     @Override
     public void update(Task task) throws SQLException {
+        String query = "UPDATE Task " +
+                "SET name=?, parentTaskID=?, description=?, timeCreated=?, dueTime=?, dueDate=? " +
+                "WHERE ID=?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, task.getName());
+        ps.setInt(2, task.getParentTaskID());
+        ps.setString(3, task.getDescription());
+        ps.setTimestamp(4, Timestamp.valueOf(task.getTimeCreated()));
 
+        LocalTime taskDueTime = task.getDueTime();
+        if (taskDueTime == null) {
+            ps.setNull(5, Types.TIME);
+        } else {
+            ps.setTime(5, Time.valueOf(taskDueTime));
+        }
+
+        LocalDate taskDueDate = task.getDueDate();
+        if (taskDueDate == null) {
+            ps.setNull(6, Types.TIME);
+        } else {
+            ps.setDate(6, Date.valueOf(taskDueDate));
+        }
+        ps.setInt(7, task.getID());
+
+
+        ps.executeUpdate();
     }
 }
