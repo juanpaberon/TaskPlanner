@@ -8,7 +8,8 @@ public class Task {
     private int ID;
     private String name;
     private int parentTaskID;
-    private String description = null;
+    boolean description = false;
+    String descriptionContent = null;
     private LocalDateTime timeCreated;
     private LocalTime dueTime = null;
     private LocalDate dueDate = null;
@@ -31,8 +32,12 @@ public class Task {
         return parentTaskID;
     }
 
-    public String getDescription() {
+    public boolean getDescription() {
         return description;
+    }
+
+    public String getDescriptionContent() {
+        return descriptionContent;
     }
 
     public LocalDateTime getTimeCreated() {
@@ -59,8 +64,12 @@ public class Task {
         parentTaskID = newParentTaskID;
     }
 
-    public void setDescription(String newDescription) {
+    public void setDescription(boolean newDescription) {
         this.description = newDescription;
+    }
+
+    public void setDescriptionContent(String descriptionContent) {
+        this.descriptionContent = descriptionContent;
     }
 
     public void setTimeCreated(LocalDateTime newTimeCreated) {

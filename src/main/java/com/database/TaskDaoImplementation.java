@@ -4,12 +4,17 @@ import com.model.Task;
 import com.database.DatabaseConnection;
 import com.mysql.cj.protocol.a.LocalDateValueEncoder;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class TaskDaoImplementation implements TaskDao{
 
@@ -30,7 +35,7 @@ public class TaskDaoImplementation implements TaskDao{
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, task.getName());
         ps.setInt(2, task.getParentTaskID());
-        ps.setString(3, task.getDescription());
+        ps.setBoolean(3, task.getDescription());
         ps.setTimestamp(4, Timestamp.valueOf(task.getTimeCreated()));
 
         LocalTime taskDueTime = task.getDueTime();
@@ -45,6 +50,10 @@ public class TaskDaoImplementation implements TaskDao{
             ps.setNull(6, Types.TIME);
         } else {
             ps.setDate(6, Date.valueOf(taskDueDate));
+        }
+
+        if (task.getDescription()) {
+            addDescription(task);
         }
 
 
@@ -102,6 +111,10 @@ public class TaskDaoImplementation implements TaskDao{
             if (!(rs.getTime("dueTime") == null)) {
                 task.setDueTime(rs.getTime("dueTime").toLocalTime());
             }
+            task.setDescription(rs.getBoolean("description"));
+            if (task.getDescription()) {
+                task.setDescriptionContent(readDescription(task));
+            }
             taskList.add(task);
         }
         return taskList;
@@ -115,7 +128,7 @@ public class TaskDaoImplementation implements TaskDao{
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, task.getName());
         ps.setInt(2, task.getParentTaskID());
-        ps.setString(3, task.getDescription());
+        ps.setBoolean(3, task.getDescription());
         ps.setTimestamp(4, Timestamp.valueOf(task.getTimeCreated()));
 
         LocalTime taskDueTime = task.getDueTime();
@@ -133,7 +146,39 @@ public class TaskDaoImplementation implements TaskDao{
         }
         ps.setInt(7, task.getID());
 
+        if (task.getDescription()) {
+            addDescription(task);
+        }
 
         ps.executeUpdate();
+    }
+
+    public void addDescription(Task task) {
+        try {
+            FileWriter descriptionFile = new FileWriter("database\\descriptions\\" + task.getID() + ".txt", false);
+            descriptionFile.write(task.getDescriptionContent());
+            descriptionFile.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String readDescription(Task task) {
+        StringBuilder description = new StringBuilder();
+        try {
+            File descriptionFile = new File("database\\descriptions\\" + task.getID() + ".txt");
+            Scanner descriptionReader = new Scanner(descriptionFile);
+            while (descriptionReader.hasNextLine()) {
+                if (!description.toString().equals("")) {
+                    description.append(System.lineSeparator());
+                }
+                String data = descriptionReader.nextLine();
+                description.append(data);
+            }
+            descriptionReader.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return description.toString();
     }
 }

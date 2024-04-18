@@ -118,6 +118,9 @@ public class TaskDetails extends JFrame implements ActionListener {
         if (!(task.getDueTime() == null)) {
             dueTimeTextField.setText(task.getDueTime().toString());
         }
+        if (task.getDescription()) {
+            descriptionField.setText(task.getDescriptionContent());
+        }
     }
 
     @Override
@@ -132,6 +135,13 @@ public class TaskDetails extends JFrame implements ActionListener {
                 task.setDueTime(getDueTimeTask());
             }
             task.setName(nameTextField.getText());
+            if (!Objects.equals(descriptionField.getText(), "")) {
+                task.setDescription(true);
+                task.setDescriptionContent(descriptionField.getText());
+            } else {
+                task.setDescription(false);
+            }
+
 
             TaskDaoImplementation taskDao = new TaskDaoImplementation();
             try {
