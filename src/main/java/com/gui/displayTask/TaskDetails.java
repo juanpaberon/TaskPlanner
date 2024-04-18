@@ -27,7 +27,7 @@ public class TaskDetails extends JFrame implements ActionListener {
     public TaskDetails(Task task) {
         this.task = task;
         this.setSize(420, 600);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLayout(new FlowLayout(FlowLayout.LEADING, 5, 5));
         this.setTitle("Task details");
 
@@ -142,13 +142,14 @@ public class TaskDetails extends JFrame implements ActionListener {
                 task.setDescription(false);
             }
 
-
             TaskDaoImplementation taskDao = new TaskDaoImplementation();
             try {
                 taskDao.update(task);
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
+
+            this.dispose();
         }
     }
 

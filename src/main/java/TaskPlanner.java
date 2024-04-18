@@ -1,4 +1,3 @@
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 
 import com.database.TaskDaoImplementation;
@@ -8,10 +7,9 @@ import com.model.Task;
 
 public class TaskPlanner {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
 
         Frame frame = new Frame();
-
 
     }
 }
