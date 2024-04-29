@@ -13,6 +13,7 @@ public class Task {
     private LocalDateTime timeCreated;
     private LocalTime dueTime = null;
     private LocalDate dueDate = null;
+    private LocalDateTime timeFinished = null;
 
     public Task(int ID, String name, LocalDateTime timeCreated) {
         this.ID = ID;
@@ -51,6 +52,9 @@ public class Task {
     public LocalDate getDueDate() {
         return dueDate;
     }
+    public LocalDateTime getTimeFinished() {
+        return timeFinished;
+    }
 
     public void setID(int newID) {
         ID = newID;
@@ -82,6 +86,9 @@ public class Task {
 
     public void setDueDate(LocalDate newDueDate) {
         this.dueDate = newDueDate;
+    }
+    public void setTimeFinished(LocalDateTime newTimeFinished) {
+        this.timeFinished = newTimeFinished;
     }
 
     @Override

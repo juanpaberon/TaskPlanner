@@ -52,7 +52,12 @@ public class TaskDaoImplementation implements TaskDao{
             ps.setDate(6, Date.valueOf(taskDueDate));
         }
 
-        ps.setNull(7, Types.TIMESTAMP);
+        LocalDateTime taskTimeFinished = task.getTimeFinished();
+        if (taskTimeFinished == null) {
+            ps.setNull(7, Types.TIMESTAMP);
+        } else {
+            ps.setTimestamp(7, Timestamp.valueOf(taskTimeFinished));
+        }
 
         if (task.getDescription()) {
             addDescription(task);
@@ -147,7 +152,12 @@ public class TaskDaoImplementation implements TaskDao{
             ps.setDate(6, Date.valueOf(taskDueDate));
         }
 
-        ps.setNull(7, Types.TIMESTAMP);
+        LocalDateTime taskTimeFinished = task.getTimeFinished();
+        if (taskTimeFinished == null) {
+            ps.setNull(7, Types.TIMESTAMP);
+        } else {
+            ps.setTimestamp(7, Timestamp.valueOf(taskTimeFinished));
+        }
 
         ps.setInt(8, task.getID());
 

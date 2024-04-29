@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 public class TaskPanel extends JPanel implements ActionListener {
 
@@ -75,6 +76,14 @@ public class TaskPanel extends JPanel implements ActionListener {
             }
         } else if (e.getSource() == detailsTask) {
             TaskDetails taskDetails = new TaskDetails(task);
+        } else if (e.getSource() == finishTask) {
+            LocalDateTime timeFinished = LocalDateTime.now();
+            task.setTimeFinished(timeFinished);
+            try {
+                taskDao.update(task);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 }
