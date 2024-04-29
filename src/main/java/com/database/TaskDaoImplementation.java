@@ -122,6 +122,9 @@ public class TaskDaoImplementation implements TaskDao{
             if (task.getDescription()) {
                 task.setDescriptionContent(readDescription(task));
             }
+            if (!(rs.getTimestamp("timeFinished") == null)) {
+                task.setTimeFinished(rs.getTimestamp("timeFinished").toLocalDateTime());
+            }
             taskList.add(task);
         }
         return taskList;

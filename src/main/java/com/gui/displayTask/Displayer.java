@@ -57,8 +57,10 @@ public class Displayer extends JScrollPane {
 
         int counter = 0;
         for (Task task : allTasks) {
-            addTaskDisplay(task, counter);
-            counter++;
+            if (task.getTimeFinished() == null) {
+                addTaskDisplay(task, counter);
+                counter++;
+            }
         }
 
         this.panel.revalidate();

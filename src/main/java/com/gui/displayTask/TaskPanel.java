@@ -81,6 +81,7 @@ public class TaskPanel extends JPanel implements ActionListener {
             task.setTimeFinished(timeFinished);
             try {
                 taskDao.update(task);
+                this.listener.onButtonClicked();
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
