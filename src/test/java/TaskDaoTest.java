@@ -32,4 +32,22 @@ public class TaskDaoTest {
         Assertions.assertEquals(1, allTasks.size());
         cleanDatabase();
     }
+
+
+    @Test
+    void deleteTaskTest() throws SQLException {
+        TaskDaoImplementation taskDao = new TaskDaoImplementation("Test");
+
+        String newTaskName = "Change oil";
+        LocalDateTime newTaskCreationTime = LocalDateTime.of(2024,4,5,15,30);
+        Task newTask = new Task(-1, newTaskName, newTaskCreationTime);
+        taskDao.add(newTask);
+
+        List<Task> allTasks = taskDao.getTasks();
+        Task task = allTasks.get(0);
+        taskDao.delete(task.getID());
+        allTasks = taskDao.getTasks();
+        Assertions.assertEquals(0, allTasks.size());
+        cleanDatabase();
+    }
 }

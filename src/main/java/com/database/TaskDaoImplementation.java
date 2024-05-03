@@ -63,7 +63,6 @@ public class TaskDaoImplementation implements TaskDao{
             addDescription(task);
         }
 
-
         return ps.executeUpdate();
     }
 
