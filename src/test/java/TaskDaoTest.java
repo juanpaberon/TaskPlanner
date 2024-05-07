@@ -25,7 +25,7 @@ public class TaskDaoTest {
     void addTaskDatabase01(TaskDaoImplementation taskDao) throws SQLException {
         String newTaskName = "Change oil";
         LocalDateTime newTaskCreationTime = LocalDateTime.of(2024,4,5,15,30);
-        Task newTask = new Task(-1, newTaskName, newTaskCreationTime);
+        Task newTask = new Task(0, newTaskName, newTaskCreationTime);
         taskDao.add(newTask);
     }
 

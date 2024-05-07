@@ -5,7 +5,7 @@ CREATE DATABASE IF NOT EXISTS taskPlanner
 USE taskPlanner;
 
 CREATE TABLE `Task` (
-	ID int NOT NULL AUTO_INCREMENT,
+	ID int NOT NULL,
     `name` varchar(100) NOT NULL,
     parentTaskID int NULL,
     `description` bool NOT NULL,

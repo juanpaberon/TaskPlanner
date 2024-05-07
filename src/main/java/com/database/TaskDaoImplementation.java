@@ -30,40 +30,66 @@ public class TaskDaoImplementation implements TaskDao{
 
     @Override
     public int add(Task task) throws SQLException {
+
+        int maxID = getMaxId();
         String query = "INSERT INTO `Task` VALUES" +
-                "(NULL, ?, ?, ?, ?, ?, ?, ?)";
+                "(?, ?, ?, ?, ?, ?, ?, ?)";;
         PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, task.getName());
-        ps.setInt(2, task.getParentTaskID());
-        ps.setBoolean(3, task.getDescription());
-        ps.setTimestamp(4, Timestamp.valueOf(task.getTimeCreated()));
+        int i = 1;
+        if (task.getID() != -1) {
+            ps.setInt(i, task.getID()); i++;
+        } else {
+            if (maxID >= 10) {
+                ps.setInt(i, maxID+1); i++;
+            } else {
+                ps.setInt(i, 10); i++;
+            }
+        }
+        ps.setString(i, task.getName()); i++;
+        ps.setInt(i, task.getParentTaskID()); i++;
+        ps.setBoolean(i, task.getDescription()); i++;
+        ps.setTimestamp(i, Timestamp.valueOf(task.getTimeCreated())); i++;
 
         LocalTime taskDueTime = task.getDueTime();
         if (taskDueTime == null) {
-            ps.setNull(5, Types.TIME);
+            ps.setNull(i, Types.TIME);
         } else {
-            ps.setTime(5, Time.valueOf(taskDueTime));
+            ps.setTime(i, Time.valueOf(taskDueTime));
         }
+        i++;
 
         LocalDate taskDueDate = task.getDueDate();
         if (taskDueDate == null) {
-            ps.setNull(6, Types.TIME);
+            ps.setNull(i, Types.TIME);
         } else {
-            ps.setDate(6, Date.valueOf(taskDueDate));
+            ps.setDate(i, Date.valueOf(taskDueDate));
         }
+        i++;
 
         LocalDateTime taskTimeFinished = task.getTimeFinished();
         if (taskTimeFinished == null) {
-            ps.setNull(7, Types.TIMESTAMP);
+            ps.setNull(i, Types.TIMESTAMP);
         } else {
-            ps.setTimestamp(7, Timestamp.valueOf(taskTimeFinished));
+            ps.setTimestamp(i, Timestamp.valueOf(taskTimeFinished));
         }
+        i++;
 
         if (task.getDescription()) {
             addDescription(task);
         }
 
         return ps.executeUpdate();
+    }
+
+    private int getMaxId() throws SQLException {
+        String query = "SELECT IFNULL(MAX(ID),0) AS maxID FROM `Task`";
+        PreparedStatement ps = con.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("maxID");
+        } else {
+            return -1;
+        }
     }
 
     @Override
