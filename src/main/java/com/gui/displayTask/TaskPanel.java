@@ -69,7 +69,7 @@ public class TaskPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == deleteTask) {
             try {
-                taskDao.delete(task.getID());
+                taskDao.delete(task);
                 this.listener.onButtonClicked();
             } catch (SQLException exception) {
                 throw new RuntimeException(exception);

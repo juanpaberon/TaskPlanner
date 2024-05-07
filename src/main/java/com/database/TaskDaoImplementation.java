@@ -67,10 +67,15 @@ public class TaskDaoImplementation implements TaskDao{
     }
 
     @Override
-    public void delete(int taskID) throws SQLException {
+    public void delete(Task task) throws SQLException {
+
+        if (task.getDescription()) {
+            deleteDescription(task);
+        }
+
         String query = "DELETE FROM Task WHERE ID = ?";
         PreparedStatement ps = con.prepareStatement(query);
-        ps.setInt(1, taskID);
+        ps.setInt(1, task.getID());
         ps.executeUpdate();
     }
 
@@ -197,5 +202,10 @@ public class TaskDaoImplementation implements TaskDao{
             throw new RuntimeException(e);
         }
         return description.toString();
+    }
+
+    public void deleteDescription(Task task) {
+        File descriptionFile = new File("database\\descriptions\\" + task.getID() + ".txt");
+        descriptionFile.delete();
     }
 }

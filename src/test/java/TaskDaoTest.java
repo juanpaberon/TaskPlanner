@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import com.database.TaskDaoImplementation;
 import com.model.Task;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,7 +18,7 @@ public class TaskDaoTest {
         List<Task> allTasks = taskDao.getTasks();
 
         for (Task task : allTasks) {
-            taskDao.delete(task.getID());
+            taskDao.delete(task);
         }
     }
 
@@ -48,9 +49,38 @@ public class TaskDaoTest {
 
         List<Task> allTasks = taskDao.getTasks();
         Task task = allTasks.get(0);
-        taskDao.delete(task.getID());
+        taskDao.delete(task);
         allTasks = taskDao.getTasks();
         Assertions.assertEquals(0, allTasks.size());
+        cleanDatabase();
+    }
+
+
+    @Test
+    void deleteTaskDescriptionTest() throws SQLException {
+        TaskDaoImplementation taskDao = new TaskDaoImplementation("Test");
+
+        addTaskDatabase01(taskDao);
+
+        List<Task> allTasks = taskDao.getTasks();
+        Task task = allTasks.get(0);
+        task.setDescription(true);
+        task.setDescriptionContent("Some test description");
+        taskDao.update(task);
+
+        int taskID = task.getID();
+        File descriptionFile = new File("database\\descriptions\\" + taskID + ".txt");
+        Assertions.assertTrue(descriptionFile.exists());
+        Assertions.assertFalse(descriptionFile.isDirectory());
+
+        taskDao.delete(task);
+        allTasks = taskDao.getTasks();
+        Assertions.assertEquals(0, allTasks.size());
+
+        descriptionFile = new File("database\\descriptions\\" + taskID + ".txt");
+        Assertions.assertFalse(descriptionFile.exists());
+        Assertions.assertFalse(descriptionFile.isDirectory());
+
         cleanDatabase();
     }
 
