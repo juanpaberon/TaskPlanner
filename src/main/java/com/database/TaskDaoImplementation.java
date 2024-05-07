@@ -170,6 +170,10 @@ public class TaskDaoImplementation implements TaskDao{
 
         if (task.getDescription()) {
             addDescription(task);
+        } else {
+            if (descriptionFileExists(task)) {
+                deleteDescription(task);
+            }
         }
 
         ps.executeUpdate();
@@ -207,5 +211,11 @@ public class TaskDaoImplementation implements TaskDao{
     public void deleteDescription(Task task) {
         File descriptionFile = new File("database\\descriptions\\" + task.getID() + ".txt");
         descriptionFile.delete();
+    }
+
+
+    public boolean descriptionFileExists(Task task) {
+        File descriptionFile = new File("database\\descriptions\\" + task.getID() + ".txt");
+        return descriptionFile.exists();
     }
 }

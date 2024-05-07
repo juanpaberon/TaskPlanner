@@ -70,7 +70,7 @@ public class TaskDaoTest {
 
         int taskID = task.getID();
         File descriptionFile = new File("database\\descriptions\\" + taskID + ".txt");
-        Assertions.assertTrue(descriptionFile.exists());
+        Assertions.assertTrue(taskDao.descriptionFileExists(task));
         Assertions.assertFalse(descriptionFile.isDirectory());
 
         taskDao.delete(task);
@@ -111,6 +111,29 @@ public class TaskDaoTest {
         Assertions.assertEquals(task.getDueTime(), taskDatabase.getDueTime());
         Assertions.assertEquals(task.getDueDate(), taskDatabase.getDueDate());
         Assertions.assertEquals(task.getTimeFinished(), taskDatabase.getTimeFinished());
+
+        cleanDatabase();
+    }
+
+
+    @Test
+    void updateTaskDescriptionTest() throws SQLException {
+        TaskDaoImplementation taskDao = new TaskDaoImplementation("Test");
+
+        addTaskDatabase01(taskDao);
+        List<Task> allTasks = taskDao.getTasks();
+        Task task = allTasks.get(0);
+        task.setDescription(true);
+        task.setDescriptionContent("Some test description");
+        taskDao.update(task);
+
+        Assertions.assertTrue(taskDao.descriptionFileExists(task));
+
+        task.setDescription(false);
+        task.setDescriptionContent("");
+        taskDao.update(task);
+
+        Assertions.assertFalse(taskDao.descriptionFileExists(task));
 
         cleanDatabase();
     }
